@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontend-replicaset
+spec:
+  replicas: 3
+  selector:
+    matchExpressions:                    # Set-based selector requirements
+      - key: app
+        operator: In                    # Operator "In" is used for set-based matching
+        values:
+          - frontend
+          - backend
+      - key: tier
+        operator: Exists                # Operator "Exists" checks if the label exists
+  template:
+    metadata:
+      labels:
+        app: frontend
+        tier: web
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+

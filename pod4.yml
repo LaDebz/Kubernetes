@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod 
+metadata:
+    name: rbc
+    namespace: dev
+spec: 
+  containers: 
+  - name: cohort15a-con
+    image: acadalearning/cohort14:1.1.0
+    ports: 
+    - containerPort: 8080
+  - name: cohort15b-con
+    image: nginx:stable-perl
+    ports: 
+    - containerPort: 80

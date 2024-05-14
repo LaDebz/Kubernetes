@@ -1,0 +1,13 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    name: testpod
+spec:
+  containers:
+    - name: c00
+      image: ubuntu
+      ports:
+        - containerPort: 8081
+      command: ["/bin/bash", "-c", "while true; do echo Hello, This is our first pod; sleep 5 ; done"]
+  restartPolicy: Always
+
