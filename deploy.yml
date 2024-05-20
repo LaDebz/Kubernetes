@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: depl
+  namespace: uat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logging
+  template:
+    metadata:
+      name: my-pod
+      labels:
+        app: logging
+    spec:
+      containers:
+      - name: my-con
+        image: acadalearning/cohort14:1.1.0
+        ports:
+        - containerPort: 8080

@@ -1,0 +1,20 @@
+apiVersion: apps/v1 
+kind: DaemonSet
+metadata:
+  name: webapps
+  namespace: uat
+spec: 
+  selector: 
+    matchLabels:
+      app: webapps
+  template: 
+    metadata:
+      name: webapps 
+      labels: 
+        app: webapps 
+    spec: 
+      containers: 
+      - name: webapps 
+        image: acadalearning/cohort14:1.1.0
+        ports: 
+        - containerPort: 8080
