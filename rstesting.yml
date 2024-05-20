@@ -1,0 +1,21 @@
+apiVersion: apps/v1  
+kind: ReplicaSet
+metadata:
+  name: spring-rs 
+  namespace: testing
+spec: 
+  replicas: 2
+  selector: 
+    matchLabels:
+      app: my-app
+  template: 
+    metadata:
+      name: my-pod
+      labels: 
+        app: my-app
+    spec: 
+      containers: 
+      - name: my-con
+        image: acadalearning/cohort14:1.1.0
+        ports: 
+        - containerPort: 8080

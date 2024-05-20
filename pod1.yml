@@ -4,6 +4,8 @@ kind: Pod
 metadata:
   name: cohort15-pod 
   namespace: dev
+  labels: 
+    app: spring
 spec: 
   containers: 
   - name: cohort15-con
