@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: my-job
+  namespace: uat
+spec:
+  template:
+    metadata:
+      labels:  # Adding labels for better organization
+        app: my-app
+    spec:
+      containers:
+      - name: my-container
+        image: tomcat:10.1.24-jre21
+        command: ["echo", "Hello, Kubernetes!"]
+      restartPolicy: Never
+  backoffLimit: 4

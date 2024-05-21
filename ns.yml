@@ -24,3 +24,9 @@ kind: Namespace
 metadata:
     name: testing
 
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+    name: dev
