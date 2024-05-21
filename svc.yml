@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  name: loggingsvclusterip  # Name of the Service
+  namespace: uat   # Namespace where the Service will be created
+spec: 
+  type: ClusterIP  # Type of Service - ClusterIP makes it accessible only from within the cluster
+  selector:
+    app: logging   # Selects Pods with the label "app: logging" to route traffic to
+  ports: 
+  - targetPort: 8080  # Port on the Pods that the Service will forward traffic to
+    port: 80          # Port on which the Service will listen for incoming traffic
+
