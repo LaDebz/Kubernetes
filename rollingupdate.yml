@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: passportdep
+  namespace: dev 
+spec: 
+  replicas: 5
+  selector: 
+    matchLabels:
+      app: validity
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate: 
+      maxUnavailable: 1
+      maxSurge: 1
+  minReadySeconds: 30
+  template: 
+    metadata:
+      name: validitypod 
+      labels: 
+        app: validity
+    spec: 
+      containers: 
+      - name: validitycon
+        image: acadalearning/acada:2.5
+        ports: 
+        - containerPort: 8080 

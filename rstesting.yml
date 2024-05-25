@@ -4,7 +4,7 @@ metadata:
   name: spring-rs 
   namespace: testing
 spec: 
-  replicas: 2
+  replicas: 0
   selector: 
     matchLabels:
       app: my-app
