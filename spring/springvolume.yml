@@ -1,0 +1,54 @@
+apiVersion: apps/v1  # Specifies the API version for the Deployment object
+kind: Deployment  # Defines the kind of Kubernetes object, in this case, a Deployment
+metadata: 
+  name: spring  # Name of the Deployment
+  namespace: dev  # Namespace where the Deployment is deployed
+  annotations: 
+    imageversion: "2.5.3"  # Annotation for the version of the image
+    imageregistry: "https://hub.docker.com/repository/docker/acadalearning/spring-boot-mongo/general"  # Annotation for the image registry URL
+    author: "LaDebz"  # Annotation for the author's name
+spec: 
+  replicas: 1  # Number of pod replicas to be created
+  selector: 
+    matchLabels:
+      app: spring  # Label selector to identify the pods managed by this Deployment
+  strategy: 
+    type: RollingUpdate  # Deployment strategy type
+    rollingUpdate: 
+      maxUnavailable: 1  # Maximum number of pods that can be unavailable during the update process
+      maxSurge: 1  # Maximum number of pods that can be created above the desired number of pods during the update process
+  minReadySeconds: 30  # Minimum number of seconds for which a newly created pod should be ready without any of its container crashing
+  template: 
+    metadata:
+      name: spring  # Name of the pod template
+      labels: 
+        app: spring  # Label for the pod template
+    spec: 
+      containers: 
+      - name: spring  # Name of the container
+        image: acadalearning/spring-boot-mongo  # Docker image to be used for the container
+        ports: 
+        - containerPort: 8080  # Port number on which the container listens
+        env:
+        - name: MONGO_DB_USERNAME
+          value: devdb  # Environment variable for MongoDB username
+        - name: MONGO_DB_PASSWORD
+          value: devdb@123  # Environment variable for MongoDB password
+        - name: MONGO_DB_HOSTNAME
+          value: mongo  # Environment variable for MongoDB hostname
+
+--- 
+apiVersion: v1  # Specifies the API version for the Service object
+kind: Service  # Defines the kind of Kubernetes object, in this case, a Service
+metadata:
+  name: springsvc  # Name of the Service
+  namespace: dev  # Namespace where the Service is deployed
+spec: 
+  type: NodePort  # Type of Service, which exposes the service on each Node's IP at a static port
+  selector:
+    app: spring  # Label selector to identify the pods targeted by this Service
+  ports: 
+  - targetPort: 8080  # Port on the container to which the traffic will be forwarded
+    port: 80  # Port on which the service will be exposed
+    protocol: TCP  # Protocol used by the service
+    nodePort: 32000  # Static port on each Node's IP where the service will be exposed

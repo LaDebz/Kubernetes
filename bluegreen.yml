@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: passportdep-blue
+  namespace: prod
+spec: 
+  replicas: 2
+  selector: 
+    matchLabels:
+      app: validity
+      version: blue
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate: 
+      maxUnavailable: 1
+      maxSurge: 1
+  minReadySeconds: 30
+  template: 
+    metadata:
+      labels: 
+        app: validity
+        version: blue
+    spec: 
+      containers: 
+      - name: validitycon
+        image: acadalearning/cohort14:1.1.0
+        ports: 
+        - containerPort: 8080
+
+---
+
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: passportdep-green
+  namespace: prod
+spec: 
+  replicas: 2
+  selector: 
+    matchLabels:
+      app: validity
+      version: green
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate: 
+      maxUnavailable: 1
+      maxSurge: 1
+  minReadySeconds: 30
+  template: 
+    metadata:
+      labels: 
+        app: validity
+        version: green
+    spec: 
+      containers: 
+      - name: validitycon
+        image: acadalearning/acada:2.5
+        ports: 
+        - containerPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: passport-service
+  namespace: prod
+spec:
+  type: NodePort
+  selector:
+    app: validity
+    version: blue # Initially route to blue
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
