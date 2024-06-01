@@ -1,0 +1,37 @@
+piVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-pv
+  namespace: dev
+  annotations: 
+    imageversion: "2.5.3"
+    imageregistry: "https://hub.docker.com/repository/docker/ladebz/devops/general"
+    author: "LaDebz"
+spec:
+  capacity:
+    storage: 2Gi #gibibytes
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle #how does kubernetes know when to recycles or what triggers the recycle? #The recycle action is triggered when the PVC bound to the PV is deleted.
+  storageClassName: manual
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  nfs:
+    path: /mnt/share
+    server: 172.31.26.171
+
+--- 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-pvc
+spec:
+  storageClassName: manual
+  resources:
+    requests:
+      storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
