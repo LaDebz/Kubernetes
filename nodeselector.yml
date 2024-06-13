@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      nodeSelector: 
+        beta: nodeA  # Ensures that pods are scheduled on nodes labeled with beta=nodeA
+      containers:
+      - name: myapp
+        image: acadalearning/cohort14:1.1.0
+        ports:
+        - containerPort: 8080
+        livenessProbe: 
+          httpGet: 
+            path: /cohort14          # Endpoint to check for the liveness probe
+            port: 8080               # Port to access the liveness probe
+          initialDelaySeconds: 5      # Delay before performing the first check
+          periodSeconds: 5            # Frequency of the checks
+        readinessProbe: 
+          httpGet: 
+            path: /cohort14          # Endpoint to check for the readiness probe
+            port: 8080               # Port to access the readiness probe
+          initialDelaySeconds: 5      # Delay before performing the first check
+          periodSeconds: 5            # Frequency of the checks
+        startupProbe: 
+          httpGet: 
+            path: /cohort14          # Endpoint to check for the startup probe
+            port: 8080               # Port to access the startup probe
+          initialDelaySeconds: 5      # Delay before performing the first check
+          periodSeconds: 5            # Frequency of the checks
+
