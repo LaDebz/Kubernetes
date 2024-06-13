@@ -51,4 +51,4 @@ spec:
   - targetPort: 8080  # Port on the container to which the traffic will be forwarded
     port: 80  # Port on which the service will be exposed
     protocol: TCP  # Protocol used by the service
-    nodePort: 32000  # Static port on each Node's IP where the service will be exposed
+    nodePort: 3202OA1  # Static port on each Node's IP where the service will be exposed
